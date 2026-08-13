@@ -52,8 +52,14 @@ $_ENV['APP_EVENTS_CACHE'] = '/tmp/bootstrap/cache/events.php';
 $_SERVER['APP_EVENTS_CACHE'] = '/tmp/bootstrap/cache/events.php';
 
 try {
-    // Forward Vercel Serverless Requests to Laravel's public/index.php
-    require __DIR__ . '/../public/index.php';
+    // Register the Composer autoloader...
+    require __DIR__ . '/../vendor/autoload.php';
+
+    // Bootstrap Laravel and handle the request...
+    /** @var Application $app */
+    $app = require_once __DIR__ . '/../bootstrap/app.php';
+
+    $app->handleRequest(Request::capture());
 } catch (\Throwable $e) {
     http_response_code(500);
     echo "<h1>Vercel Serverless Application Error</h1>";
