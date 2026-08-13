@@ -1,0 +1,6 @@
+public/index.php
+.git
+.github
+.env
+.env.*
+!.env.example
